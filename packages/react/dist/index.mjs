@@ -536,6 +536,101 @@ var Tooltip = (_a) => {
   ] })) });
 };
 Tooltip.displayName = "Tooltip";
+
+// src/components/Toast/index.tsx
+import * as ToastPrimitive2 from "@radix-ui/react-toast";
+import { X } from "phosphor-react";
+
+// src/components/Toast/styles.ts
+import * as ToastPrimitive from "@radix-ui/react-toast";
+var VIEWPORT_PADDING = 32;
+var hide = keyframes({
+  "0%": { opacity: 1 },
+  "100%": { opacity: 0 }
+});
+var slideIn2 = keyframes({
+  from: { transform: `translateX(calc(100% + ${VIEWPORT_PADDING}px))` },
+  to: { transform: "translateX(0)" }
+});
+var swipeOut = keyframes({
+  from: { transform: "translateX(var(--radix-toast-swipe-end-x))" },
+  to: { transform: `translateX(calc(100% + ${VIEWPORT_PADDING}px))` }
+});
+var ToastRoot = styled(ToastPrimitive.Root, {
+  padding: "$3 $4",
+  background: "$gray800",
+  border: "1px solid $gray600",
+  borderRadius: "$sm",
+  fontFamily: "$default",
+  position: "relative",
+  '&[data-state="open"]': {
+    animation: `${slideIn2} 150ms cubic-bezier(0.16, 1, 0.3, 1)`
+  },
+  '&[data-state="closed"]': {
+    animation: `${hide} 100ms ease-in`
+  },
+  '&[data-swipe="move"]': {
+    transform: "translateX(var(--radix-toast-swipe-move-x))"
+  },
+  '&[data-swipe="cancel"]': {
+    transform: "translateX(0)",
+    transition: "transform 200ms ease-out"
+  },
+  '&[data-swipe="end"]': {
+    animation: `${swipeOut} 100ms ease-out`
+  }
+});
+var ToastTitle = styled(ToastPrimitive.Title, {
+  color: "$white",
+  fontWeight: "$bold",
+  fontSize: "$xl",
+  lineHeight: "$base"
+});
+var ToastDescription = styled(ToastPrimitive.Description, {
+  color: "$gray200",
+  fontSize: "$sm",
+  lineHeight: "$base",
+  marginTop: "$1"
+});
+var ToastClose = styled(ToastPrimitive.Close, {
+  position: "absolute",
+  top: "$4",
+  right: "$4",
+  background: "none",
+  border: "none",
+  color: "$gray200",
+  cursor: "pointer"
+});
+var ToastViewport = styled(ToastPrimitive.Viewport, {
+  position: "fixed",
+  bottom: 0,
+  right: 0,
+  display: "flex",
+  flexDirection: "column",
+  gap: 10,
+  padding: VIEWPORT_PADDING,
+  width: 390,
+  maxWidth: "100vw",
+  margin: 0,
+  listStyle: "none",
+  zIndex: 999999,
+  outline: "none"
+});
+
+// src/components/Toast/index.tsx
+import { jsx as jsx6, jsxs as jsxs5 } from "react/jsx-runtime";
+var Toast = (_a) => {
+  var _b = _a, { title, description } = _b, props = __objRest(_b, ["title", "description"]);
+  return /* @__PURE__ */ jsxs5(ToastPrimitive2.Provider, { children: [
+    /* @__PURE__ */ jsxs5(ToastRoot, __spreadProps(__spreadValues({}, props), { children: [
+      /* @__PURE__ */ jsx6(ToastTitle, { children: title }),
+      description && /* @__PURE__ */ jsx6(ToastDescription, { children: description }),
+      /* @__PURE__ */ jsx6(ToastClose, { children: /* @__PURE__ */ jsx6(X, { weight: "light", size: 20 }) })
+    ] })),
+    /* @__PURE__ */ jsx6(ToastViewport, {})
+  ] });
+};
+Toast.displayName = "Toast";
 export {
   Avatar2 as Avatar,
   Box,
@@ -546,6 +641,7 @@ export {
   Text,
   TextArea,
   TextInput,
+  Toast,
   Tooltip,
   config,
   createTheme,
